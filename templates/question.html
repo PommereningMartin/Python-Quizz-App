@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ category }}</title>
+    <h3>Kategorie: {{ category }}</h3>
+    <h3>Question: {{ question }}</h3>
+    <h3>Frage: {{ question.text }}</h3>
+<ul>
+    {% for pAnswer in question.possibleAnswers %}
+        <li><a href="/answer?questionId={{ question.id }}&givenAnswer={{ pAnswer }}"><h1>{{ pAnswer }}</h1></a></li>
+    {% endfor %}
+</ul>
+
+</head>
+<body>
+
+</body>
+</html>
