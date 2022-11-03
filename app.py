@@ -17,12 +17,13 @@ def question_for_category():
     return render_template('question.html', category=category, question=question)
 
 
-@app.route('/answer')
+@app.route('/answer', methods=['POST'])
 def check_answer():
-    question_id = request.args.get('questionId')
-    given_answer = request.args.get('questionId')
-    answer = catService.answer(question_id, given_answer)
-    return render_template('index.html', categories=catService.get_categories())
+    if request.method == 'POST':
+        question_id = request.json.get('question')
+        given_answer = request.json.get('answer')
+        return {'answer': catService.check_answer(question_id, given_answer)}
+    return {}
 
 
 if __name__ == '__main__':
