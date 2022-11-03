@@ -41,4 +41,4 @@ class CategoryService(object):
     def check_answer(self, question_id, given_answer):
         for question in self.questions:
             if question.get('id') == question_id:
-                return question.get('correctAnswer') == given_answer
+                return 'Richtig' if question.get('correctAnswer') == given_answer else 'Falsch'

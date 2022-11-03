@@ -23,7 +23,7 @@ def check_answer():
         question_id = request.json.get('question')
         given_answer = request.json.get('answer')
         return {'answer': catService.check_answer(question_id, given_answer)}
-    return {}
+    return {'answer': None}
 
 
 if __name__ == '__main__':
