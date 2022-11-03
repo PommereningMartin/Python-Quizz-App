@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ category }}</title>
-    <script type="text/javascript" src="{{url_for('static', filename='request.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='answer.js')}}"></script>
 </head>
 <body>
 <h3>Kategorie: {{ category }}</h3>
@@ -11,11 +11,11 @@
 <h3>Frage: {{ question.text }}</h3>
 <ul>
     {% for pAnswer in question.possibleAnswers %}
-        <li>
+        <div>
             <button onclick="foo({{ pAnswer }}, {{ question.id }})">
                 {{ pAnswer }}
             </button>
-        </li>
+        </div>
     {% endfor %}
 </ul>
 </body>
