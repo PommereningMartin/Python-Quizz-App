@@ -13,6 +13,12 @@ class CategoryService(object):
             'possibleAnswers': ['0', '1', '2', '3'],
             'correctAnswer': '2'},
         {
+            'id': 4,
+            'cat': 'WIRTSCHAFT',
+            'text': 'Wieviel ist 1+0?',
+            'possibleAnswers': ['0', '1', '2', '3'],
+            'correctAnswer': '1'},
+        {
             'id': 2,
             'cat': 'TECHNIK',
             'text': 'Wieviel ist 1+2?',

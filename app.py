@@ -2,7 +2,7 @@ import json
 import os
 
 import requests as requests
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_login import LoginManager, login_required
 
 from service.category_service import CategoryService
@@ -29,7 +29,7 @@ def hello_world():  # put application's code here
 
 @app.route('/home')
 def home():  # put application's code here
-    return render_template('index.html', categories=catService.get_categories())
+    return render_template('index.html', categories=catService.get_categories(), loggedIn=session.get('loggedIn'))
 
 
 @app.route('/question')
@@ -50,12 +50,11 @@ def check_answer():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    request_uri = client.prepare_request_uri(
+    return redirect(str(client.prepare_request_uri(
         AUTH_ENDPOINT,
         redirect_uri='http://localhost:5000/callback',
         scope=["openid"],
-    )
-    return redirect(request_uri)
+    )))
 
 
 class User:
@@ -77,7 +76,8 @@ def login_callback():
     # Parse the tokens!
     print(token_response.json())
     print(code)
-    if token is None:
+    if token is not None:
+        session['loggedIn'] = True;
         return redirect(url_for('home'))
     return "<h3>ERROR!!!!!!!!!</>"
 

@@ -10,5 +10,7 @@
 {% for key in categories %}
     <h1><a href="/question?category={{ key }}">{{ categories[key] }}</a></h1>
 {% endfor %}
+
+<h1>Logged in: {{ loggedIn }}</h1>
 </body>
 </html>
