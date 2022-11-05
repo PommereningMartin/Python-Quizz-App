@@ -1,9 +1,7 @@
 import json
 import os
 
-import requests as requests
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_login import LoginManager, login_required
 
 from service.category_service import CategoryService
 from oauthlib.oauth2 import WebApplicationClient
@@ -11,12 +9,10 @@ from oauthlib.oauth2 import WebApplicationClient
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 catService = CategoryService()
-login_manager = LoginManager()
-login_manager.init_app(app)
 
 CLIENT_ID = 'deeg4tvrgziwwqpfwqtdd37z5gxltr'
 CLIENT_SECRET = 'ifllbh3xvun6818en99t5b34jd90qv'
-REDIRECT_URL = 'http://localhost:5000/callback'
+REDIRECT_URL = 'http://localhost:3000/callback'
 AUTH_ENDPOINT = 'https://id.twitch.tv/oauth2/authorize'
 TOKEN_ENDPOINT = 'https://id.twitch.tv/oauth2/token'
 client = WebApplicationClient(CLIENT_ID)
@@ -52,7 +48,7 @@ def check_answer():
 def login():
     return redirect(str(client.prepare_request_uri(
         AUTH_ENDPOINT,
-        redirect_uri='http://localhost:5000/callback',
+        redirect_uri='http://localhost:3000/callback',
         scope=["openid"],
     )))
 
@@ -60,18 +56,12 @@ def login():
 class User:
     pass
 
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
-
-
 @app.route('/callback', methods=['GET', 'POST'])
 def login_callback():
     code = request.args.get("code")
     foo = TOKEN_ENDPOINT + '?client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&code=' + code + '&grant_type=authorization_code' + '&redirect_uri=' + REDIRECT_URL
     print(foo)
-    token_response = requests.post(foo)
+    token_response = request.post(foo)
     token = token_response.json()['access_token']
     # Parse the tokens!
     print(token_response.json())
@@ -83,11 +73,10 @@ def login_callback():
 
 
 @app.route('/logout', methods=['GET', 'POST'])
-@login_required
 def logout():
     # logout_user()
     return redirect(url_for("login"))
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port=3000)
